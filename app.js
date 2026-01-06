@@ -1,19 +1,31 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-function generate() {
+async function generate() {
   const prompt = document.getElementById("prompt").value;
   if (!prompt) {
-    tg.showAlert("Введите описание изображения");
+    tg.showAlert("Введите описание");
     return;
   }
 
-  tg.sendData(JSON.stringify({
-    action: "generate",
-    prompt: prompt
-  }));
-}
+  document.getElementById("result").innerHTML = "⏳ Генерация...";
 
-function buy() {
-  tg.sendData(JSON.stringify({ action: "buy" }));
+  const res = await fetch("https://API_DOMAIN/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_id: tg.initDataUnsafe.user.id,
+      prompt: prompt
+    })
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    document.getElementById("result").innerHTML = "❌ " + err;
+    return;
+  }
+
+  const data = await res.json();
+  document.getElementById("result").innerHTML =
+    `<img src="${data.image_url}" style="width:100%;border-radius:12px;">`;
 }
