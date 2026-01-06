@@ -3,19 +3,22 @@ tg.expand();
 
 async function generate() {
   const prompt = document.getElementById("prompt").value;
+  const removeBg = document.getElementById("remove_bg").checked;
+
   if (!prompt) {
-    tg.showAlert("Введите описание");
+    tg.showAlert("Введите описание изображения");
     return;
   }
 
   document.getElementById("result").innerHTML = "⏳ Генерация...";
 
-  const res = await fetch("https://API_DOMAIN/generate", {
+  const res = await fetch("https://gtvra.github.io/tg_im/generate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       user_id: tg.initDataUnsafe.user.id,
-      prompt: prompt
+      prompt: prompt,
+      remove_bg: removeBg
     })
   });
 
@@ -27,5 +30,5 @@ async function generate() {
 
   const data = await res.json();
   document.getElementById("result").innerHTML =
-    `<img src="${data.image_url}" style="width:100%;border-radius:12px;">`;
+    `<img src="${data.image_url}" style="width:100%; border-radius:12px;">`;
 }
