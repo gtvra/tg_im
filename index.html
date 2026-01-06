@@ -1,3 +1,17 @@
-<input id="prompt" placeholder="Опиши изображение">
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Image Bot</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h2>🎨 Генератор изображений</h2>
+<input id="prompt" type="text" placeholder="Опишите изображение">
+<label><input type="checkbox" id="remove_bg"> Убрать фон</label>
 <button onclick="generate()">Создать</button>
 <div id="result"></div>
+<script src="app.js"></script>
+</body>
+</html>
